@@ -1,0 +1,7 @@
+{ "name": "junjo"
+, "version": "0.1.0"
+, "description": "sorted list"
+, "tags": ["sort", "list", "bsearch", "algorithm"]
+, "author": "SHIN Suzuki <shinout310@gmail.com>"
+, "main": "./SortedList.js"
+}
