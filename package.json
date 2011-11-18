@@ -1,4 +1,4 @@
-{ "name": "junjo"
+{ "name": "sortedlist"
 , "version": "0.1.0"
 , "description": "sorted list"
 , "tags": ["sort", "list", "bsearch", "algorithm"]
