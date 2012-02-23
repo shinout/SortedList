@@ -2,7 +2,7 @@ var SortedList = require("./SortedList");
 
 function test() {
   // sample : ranges with no overlap
-  var list = new SortedList([
+  var list = SortedList.create([
     [152, 222], [33, 53], [48, 96], [928, 1743], [66, 67], [11, 12]
   ],
   {

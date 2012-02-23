@@ -44,6 +44,14 @@ function SortedList() {
 };
 
 /**
+ * SortedList.create(val1, val2)
+ * creates an instance
+ **/
+SortedList.create = function(val1, val2) {
+  return new SortedList(val1, val2);
+};
+
+/**
  * sorted.bsearch(val)
  * @returns position of the value
  **/
