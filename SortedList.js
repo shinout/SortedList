@@ -32,14 +32,17 @@ function SortedList() {
   });
   this.arr = [];
 
-  ["filter", "compare"].forEach(function(k) {
-    if (typeof options[k] == "function") {
-      this[k] = options[k];
-    }
-    else if (options[k] && SortedList[k][options[k]]) {
-      this[k] = SortedList[k][options[k]];
-    }
-  }, this);
+  if (typeof options.filter == 'function') {
+    this._filter = options.filter;
+  }
+
+  if (typeof options.compare == 'function') {
+    this._compare = options.compare;
+  }
+  else if (typeof options.compare == 'string' && SortedList.compares[options.compare]) {
+    this._compare = SortedList.compares[options.compare];
+  }
+
   if (arr) this.insert.apply(this, arr);
 };
 
@@ -62,7 +65,7 @@ SortedList.prototype.bsearch = function(val) {
   while (epos - spos > 1) {
     mpos = Math.floor((spos + epos)/2);
     mval = this.arr[mpos];
-    switch (this.compare(val, mval)) {
+    switch (this._compare(val, mval)) {
     case 1  :
     default :
       spos = mpos;
@@ -74,7 +77,7 @@ SortedList.prototype.bsearch = function(val) {
       return mpos;
     }
   }
-  return (this.arr[0] == null || spos == 0 && this.arr[0] != null && this.compare(this.arr[0], val) == 1) ? -1 : spos;
+  return (this.arr[0] == null || spos == 0 && this.arr[0] != null && this._compare(this.arr[0], val) == 1) ? -1 : spos;
 };
 
 /**
@@ -124,7 +127,7 @@ SortedList.prototype.tail = function() {
  **/
 SortedList.prototype.insertOne = function(val) {
   var pos = this.bsearch(val);
-  if (!this.filter(val, pos)) return false;
+  if (!this._filter(val, pos)) return false;
   this.arr.splice(pos+1, 0, val);
   return pos+1;
 };
@@ -136,7 +139,7 @@ SortedList.prototype.insertOne = function(val) {
  **/
 SortedList.prototype.insert = function() {
   return Array.prototype.map.call(arguments, function(val) {
-    this.insertOne(val);
+    return this.insertOne(val);
   }, this);
 };
 
@@ -161,17 +164,17 @@ SortedList.prototype.delete = function(pos) {
 SortedList.prototype.remove = SortedList.prototype.delete;
 
 /**
- * filter
+ * default filtration function
  **/
-SortedList.prototype.filter = function(val, pos) {
+SortedList.prototype._filter = function(val, pos) {
   return true;
 };
 
 
 /**
- * default compare functions 
+ * comparison functions 
  **/
-SortedList.compare = {
+SortedList.compares = {
   "number": function(a, b) {
     var c = a - b;
     return (c > 0) ? 1 : (c == 0)  ? 0 : -1;
@@ -184,7 +187,8 @@ SortedList.compare = {
 
 /**
  * sorted.compare(a, b)
+ * default comparison function
  **/
-SortedList.prototype.compare = SortedList.compare["number"];
+SortedList.prototype._compare = SortedList.compares["number"];
 
 if (typeof exports == 'object' && exports === this) module.exports = SortedList;
