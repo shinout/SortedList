@@ -41,8 +41,9 @@ function SortedList() {
   else if (typeof options.compare == 'string' && SortedList.compares[options.compare]) {
     this._compare = SortedList.compares[options.compare];
   }
+
   if (options.resume && arr) {
-    arr.forEach(function(v, i) { this.push(v) }, this);
+    arr.sort(this._compare).forEach(function(v, i) { this.push(v) }, this);
   }
   else if (arr) this.insert.apply(this, arr);
 };

@@ -34,7 +34,7 @@ sorted list in JavaScript
     console.assert(list.length, 5);
     console.assert(list.pop(), 13);
 
-    // register an already sorted array
+    // register an already filtered array
     var list = SortedList.create(0,1,2,3,4, { resume: true });
 
 ### MORE ###
