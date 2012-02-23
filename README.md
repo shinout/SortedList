@@ -38,7 +38,16 @@ sorted list in JavaScript
     var list = SortedList.create(0,1,2,3,4, { resume: true });
 
 ### MORE ###
-sort ranges with no overlap
+- unique
+
+    sorted.unique();
+
+- get first key
+
+    var index = sorted.key(value);
+
+
+- sort ranges with no overlap
 
     var list = SortedList.create([
       [152, 222],  // 4

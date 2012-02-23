@@ -1,4 +1,4 @@
-    var SortedList = require("./SortedList");
+    var SortedList = require("../SortedList");
     var list = new SortedList();
     list.insert(13, 2, 9, 8, 0);
     console.log(list.toArray());

@@ -1,4 +1,4 @@
-var SortedList = require("./SortedList");
+var SortedList = require("../SortedList");
 
 function test() {
   // sample : ranges with no overlap

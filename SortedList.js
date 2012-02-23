@@ -86,6 +86,38 @@ SortedList.prototype.bsearch = function(val) {
   return (this[0] == null || spos == 0 && this[0] != null && this._compare(this[0], val) == 1) ? -1 : spos;
 };
 
+/**
+ * sorted.key(val)
+ * @returns first index if exists, null if not
+ **/
+SortedList.prototype.key = function(val) {
+  var pos = this.bsearch(val);
+  if (pos == -1 || this[pos] != val) return null;
+  while (pos >= 1 && this[pos-1] == val) {
+    pos--;
+  }
+  return pos;
+};
+
+/**
+ * sorted.unique()
+ * @param createNew : create new instance
+ * @returns first index if exists, null if not
+ **/
+SortedList.prototype.unique = function(createNew) {
+  if (createNew) return this.filter(function(v, k) {
+    return k == 0 || this[k-1] != v;
+  }, this);
+  var total = 0;
+  this.map(function(v, k) {
+    if (k == 0 || this[k-1] != v) return null;
+    return k - (total++);
+  }, this)
+  .forEach(function(k) {
+    if (k != null) this.remove(k);
+  }, this)
+  return this;
+};
 
 /**
  * sorted.toArray()
