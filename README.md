@@ -12,22 +12,32 @@ sorted list in JavaScript
 ### Usage ###
 
     // sort number
-    var list = new SortedList();
+    var list = SortedList.create();
     list.insert(13, 2, 9, 8, 0);
     console.log(list.toArray()); // [0,2,8,9,13]
 
     // sort string
     var arr = ["foo", "bar", "hoge"];
-    var strList = new SortedList(arr, {
+    var strList = SortedList.create(arr, {
       compare: "string"
     });
     console.log(strList.toArray()); // ["bar", "foo", "hoge"]
 
+    // SortedList is not Array
+    console.assert(Array.isArray(list));
+
+    // SortedList is instanceof Array
+    console.assert(list instanceof Array);
+
+    // SortedList extends Array
+    console.assert(list[2], 8);
+    console.assert(list.length, 5);
+    console.assert(list.pop(), 13);
 
 ### MORE ###
 sort ranges with no overlap
 
-    var list = new SortedList([
+    var list = SortedList.create([
       [152, 222],  // 4
       [33, 53],    // 2
       [48, 96],    // duplicated, so filtered.
@@ -38,10 +48,9 @@ sort ranges with no overlap
     {
       // filter function: called before insertion.
       filter: function(val, pos) {
-        if (isNull)
-        return (this.arr[pos]   == null || (this.arr[pos]   != null && this.arr[pos][1]  <  val[0])) 
+        return (this[pos]   == null || (this[pos]   != null && this[pos][1]  <  val[0])) 
           && 
-               (this.arr[pos+1] == null || (this.arr[pos+1] != null && val[1] < this.arr[pos+1][0]));
+               (this[pos+1] == null || (this[pos+1] != null && val[1] < this[pos+1][0]));
       },
 
       // comparison function called before insertion.

@@ -17,8 +17,6 @@
  *                              "string" : compares string
  */
 function SortedList() {
-  this.arr = this;
-
   var arr     = null,
       options = {},
       args    = arguments;
