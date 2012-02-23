@@ -43,6 +43,10 @@ function SortedList() {
   if (arr) this.insert.apply(this, arr);
 };
 
+/**
+ * sorted.bsearch(val)
+ * @returns position of the value
+ **/
 SortedList.prototype.bsearch = function(val) {
   var mpos,
       spos = 0,
@@ -65,46 +69,96 @@ SortedList.prototype.bsearch = function(val) {
   return (this.arr[0] == null || spos == 0 && this.arr[0] != null && this.compare(this.arr[0], val) == 1) ? -1 : spos;
 };
 
+/**
+ * sorted.get(pos)
+ * gets value of the given position
+ **/
 SortedList.prototype.get = function(pos) {
   return this.arr[pos];
 };
 
-SortedList.prototype.toArray = function(pos) {
-  return this.arr.slice();
+/**
+ * sorted.toArray()
+ * get raw array
+ **/
+SortedList.prototype.toArray = function(reference) {
+  return (reference) ? this.arr : this.arr.slice();
 };
 
+/**
+ * sorted.size()
+ * get length of the array
+ **/
 SortedList.prototype.size = function() {
   return this.arr.length;
 };
 
+/**
+ * sorted.head()
+ * gets the first value
+ **/
 SortedList.prototype.head = function() {
   return this.arr[0];
 };
 
+/**
+ * sorted.tail()
+ * gets the last value
+ **/
 SortedList.prototype.tail = function() {
   return (this.arr.length == 0) ? null : this.arr[this.arr.length -1];
 };
 
+/**
+ * sorted.insertOne(val)
+ * insert one value
+ * returns false if failed, inserted position if succeed
+ **/
+SortedList.prototype.insertOne = function(val) {
+  var pos = this.bsearch(val);
+  if (!this.filter(val, pos)) return false;
+  this.arr.splice(pos+1, 0, val);
+  return pos+1;
+};
+
+/**
+ * sorted.insert(val1, val2, ...)
+ * insert multi values
+ * returns the list of the results of insertOne()
+ **/
 SortedList.prototype.insert = function() {
-  Array.prototype.forEach.call(arguments, function(val) {
-    var pos = this.bsearch(val);
-    if (this.filter(val, pos)) {
-      this.arr.splice(pos+1, 0, val);
-    }
+  return Array.prototype.map.call(arguments, function(val) {
+    this.insertOne(val);
   }, this);
 };
 
-SortedList.prototype.filter = function(val, pos) {
-  return true;
-};
-
+/**
+ * sorted.add(val1, val2, ...)
+ * alias of sorted.insert()
+ **/
 SortedList.prototype.add = SortedList.prototype.insert;
 
+/**
+ * sorted.delete(pos)
+ * remove the value in the given position
+ **/
 SortedList.prototype.delete = function(pos) {
   this.arr.splice(pos, 1);
 };
 
+/**
+ * sorted.remove(pos)
+ * remove the value in the given position
+ **/
 SortedList.prototype.remove = SortedList.prototype.delete;
+
+/**
+ * filter
+ **/
+SortedList.prototype.filter = function(val, pos) {
+  return true;
+};
+
 
 /**
  * default compare functions 
@@ -120,6 +174,9 @@ SortedList.compare = {
   }
 };
 
+/**
+ * sorted.compare(a, b)
+ **/
 SortedList.prototype.compare = SortedList.compare["number"];
 
 if (typeof exports == 'object' && exports === this) module.exports = SortedList;

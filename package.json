@@ -1,7 +1,7 @@
 { "name": "sortedlist"
-, "version": "0.1.0"
+, "version": "0.1.1"
 , "description": "sorted list"
-, "tags": ["sort", "list", "bsearch", "algorithm"]
+, "keywords": ["sort", "list", "bsearch", "algorithm"]
 , "author": "SHIN Suzuki <shinout310@gmail.com>"
 , "main": "./SortedList.js"
 }
