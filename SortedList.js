@@ -84,13 +84,6 @@ SortedList.prototype.bsearch = function(val) {
   return (this[0] == null || spos == 0 && this[0] != null && this._compare(this[0], val) == 1) ? -1 : spos;
 };
 
-/**
- * sorted.get(pos)
- * gets value of the given position
- **/
-SortedList.prototype.get = function(pos) {
-  return this[pos];
-};
 
 /**
  * sorted.toArray()
@@ -98,30 +91,6 @@ SortedList.prototype.get = function(pos) {
  **/
 SortedList.prototype.toArray = function() {
   return this.slice();
-};
-
-/**
- * sorted.size()
- * get length of the array
- **/
-SortedList.prototype.size = function() {
-  return this.length;
-};
-
-/**
- * sorted.head()
- * gets the first value
- **/
-SortedList.prototype.head = function() {
-  return this[0];
-};
-
-/**
- * sorted.tail()
- * gets the last value
- **/
-SortedList.prototype.tail = function() {
-  return (this.length == 0) ? null : this[this.length -1];
 };
 
 /**
@@ -148,24 +117,12 @@ SortedList.prototype.insert = function() {
 };
 
 /**
- * sorted.add(val1, val2, ...)
- * alias of sorted.insert()
- **/
-SortedList.prototype.add = SortedList.prototype.insert;
-
-/**
- * sorted.delete(pos)
- * remove the value in the given position
- **/
-SortedList.prototype.delete = function(pos) {
-  this.splice(pos, 1);
-};
-
-/**
  * sorted.remove(pos)
  * remove the value in the given position
  **/
-SortedList.prototype.remove = SortedList.prototype.delete;
+SortedList.prototype.remove = function(pos) {
+  this.splice(pos, 1);
+}
 
 /**
  * default filtration function
