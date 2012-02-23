@@ -41,8 +41,10 @@ function SortedList() {
   else if (typeof options.compare == 'string' && SortedList.compares[options.compare]) {
     this._compare = SortedList.compares[options.compare];
   }
-
-  if (arr) this.insert.apply(this, arr);
+  if (options.resume && arr) {
+    arr.forEach(function(v, i) { this.push(v) }, this);
+  }
+  else if (arr) this.insert.apply(this, arr);
 };
 
 /**
@@ -52,6 +54,7 @@ function SortedList() {
 SortedList.create = function(val1, val2) {
   return new SortedList(val1, val2);
 };
+
 
 SortedList.prototype = new Array();
 SortedList.prototype.constructor = Array.prototype.constructor;

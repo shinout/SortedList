@@ -24,7 +24,7 @@ sorted list in JavaScript
     console.log(strList.toArray()); // ["bar", "foo", "hoge"]
 
     // SortedList is not Array
-    console.assert(Array.isArray(list));
+    console.assert(!Array.isArray(list));
 
     // SortedList is instanceof Array
     console.assert(list instanceof Array);
@@ -33,6 +33,9 @@ sorted list in JavaScript
     console.assert(list[2], 8);
     console.assert(list.length, 5);
     console.assert(list.pop(), 13);
+
+    // register an already sorted array
+    var list = SortedList.create(0,1,2,3,4, { resume: true });
 
 ### MORE ###
 sort ranges with no overlap
