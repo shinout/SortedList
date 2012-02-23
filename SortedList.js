@@ -122,5 +122,4 @@ SortedList.compare = {
 
 SortedList.prototype.compare = SortedList.compare["number"];
 
-
-module.exports = SortedList;
+if (typeof exports == 'object' && exports === this) module.exports = SortedList;
