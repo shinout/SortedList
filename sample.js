@@ -4,9 +4,9 @@ function test() {
   // sample : ranges with no overlap
   var list = SortedList.create(  {
     filter: function(val, pos) {
-      return (this.arr[pos]   == null || (this.arr[pos]   != null && this.arr[pos][1]  <  val[0])) 
+      return (this[pos]   == null || (this[pos]   != null && this[pos][1]  <  val[0])) 
         && 
-             (this.arr[pos+1] == null || (this.arr[pos+1] != null && val[1] < this.arr[pos+1][0]));
+             (this[pos+1] == null || (this[pos+1] != null && val[1] < this[pos+1][0]));
     },
     compare: function(a, b) {
       if (a == null) return -1;
@@ -22,7 +22,10 @@ function test() {
 
   console.log(insertResult)
   console.log(list.toArray());
-  console.assert(list.toArray().length, 5);
+  console.assert(list.length, 5);
+
+  console.assert(Array.isArray(list) === false);
+  console.assert(list instanceof Array);
 }
 
 

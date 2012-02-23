@@ -17,6 +17,8 @@
  *                              "string" : compares string
  */
 function SortedList() {
+  this.arr = this;
+
   var arr     = null,
       options = {},
       args    = arguments;
@@ -30,7 +32,6 @@ function SortedList() {
       options = val;
     }
   });
-  this.arr = [];
 
   if (typeof options.filter == 'function') {
     this._filter = options.filter;
@@ -54,6 +55,9 @@ SortedList.create = function(val1, val2) {
   return new SortedList(val1, val2);
 };
 
+SortedList.prototype = new Array();
+SortedList.prototype.constructor = Array.prototype.constructor;
+
 /**
  * sorted.bsearch(val)
  * @returns position of the value
@@ -61,10 +65,10 @@ SortedList.create = function(val1, val2) {
 SortedList.prototype.bsearch = function(val) {
   var mpos,
       spos = 0,
-      epos = this.arr.length;
+      epos = this.length;
   while (epos - spos > 1) {
     mpos = Math.floor((spos + epos)/2);
-    mval = this.arr[mpos];
+    mval = this[mpos];
     switch (this._compare(val, mval)) {
     case 1  :
     default :
@@ -77,7 +81,7 @@ SortedList.prototype.bsearch = function(val) {
       return mpos;
     }
   }
-  return (this.arr[0] == null || spos == 0 && this.arr[0] != null && this._compare(this.arr[0], val) == 1) ? -1 : spos;
+  return (this[0] == null || spos == 0 && this[0] != null && this._compare(this[0], val) == 1) ? -1 : spos;
 };
 
 /**
@@ -85,15 +89,15 @@ SortedList.prototype.bsearch = function(val) {
  * gets value of the given position
  **/
 SortedList.prototype.get = function(pos) {
-  return this.arr[pos];
+  return this[pos];
 };
 
 /**
  * sorted.toArray()
  * get raw array
  **/
-SortedList.prototype.toArray = function(reference) {
-  return (reference) ? this.arr : this.arr.slice();
+SortedList.prototype.toArray = function() {
+  return this.slice();
 };
 
 /**
@@ -101,7 +105,7 @@ SortedList.prototype.toArray = function(reference) {
  * get length of the array
  **/
 SortedList.prototype.size = function() {
-  return this.arr.length;
+  return this.length;
 };
 
 /**
@@ -109,7 +113,7 @@ SortedList.prototype.size = function() {
  * gets the first value
  **/
 SortedList.prototype.head = function() {
-  return this.arr[0];
+  return this[0];
 };
 
 /**
@@ -117,7 +121,7 @@ SortedList.prototype.head = function() {
  * gets the last value
  **/
 SortedList.prototype.tail = function() {
-  return (this.arr.length == 0) ? null : this.arr[this.arr.length -1];
+  return (this.length == 0) ? null : this[this.length -1];
 };
 
 /**
@@ -128,7 +132,7 @@ SortedList.prototype.tail = function() {
 SortedList.prototype.insertOne = function(val) {
   var pos = this.bsearch(val);
   if (!this._filter(val, pos)) return false;
-  this.arr.splice(pos+1, 0, val);
+  this.splice(pos+1, 0, val);
   return pos+1;
 };
 
@@ -154,7 +158,7 @@ SortedList.prototype.add = SortedList.prototype.insert;
  * remove the value in the given position
  **/
 SortedList.prototype.delete = function(pos) {
-  this.arr.splice(pos, 1);
+  this.splice(pos, 1);
 };
 
 /**
@@ -190,5 +194,4 @@ SortedList.compares = {
  * default comparison function
  **/
 SortedList.prototype._compare = SortedList.compares["number"];
-
 if (typeof exports == 'object' && exports === this) module.exports = SortedList;

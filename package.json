@@ -1,5 +1,5 @@
 { "name": "sortedlist"
-, "version": "0.1.1"
+, "version": "0.2.0"
 , "description": "sorted list"
 , "keywords": ["sort", "list", "bsearch", "algorithm"]
 , "author": "SHIN Suzuki <shinout310@gmail.com>"
