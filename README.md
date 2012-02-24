@@ -81,9 +81,9 @@ By default, "number" comparison.
 <td>
 a custom comparison function which returns one of [1, 0, -1].<br>
 The same spec as Array#sort(fn).
-See [mozilla official site](https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/sort).
+See <a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/sort">Mozilla official site</a>.
 </td>
-<td>"number"</td>
+<td>function(a,b) { return a.start - b.start }</td>
 </tr>
 
 <tr><th>resume</th>
