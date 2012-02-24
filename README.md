@@ -35,7 +35,7 @@ sorted list in JavaScript (browsers (ES5 compatible), Node.js)
     console.assert(list.pop(), 13);
 
     // register an already filtered array
-    var list = SortedList.create(0,1,2,3,4, { resume: true });
+    var list = SortedList.create([0,1,2,3,4], { resume: true });
 
 ## API Documentation ##
 - SortedList.create(options, arr)
