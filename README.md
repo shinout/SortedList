@@ -1,15 +1,15 @@
 SortedList
 ==========
-sorted list in JavaScript
+sorted list in JavaScript (browsers (ES5 compatible), Node.js)
 
-### Installation ###
+## Installation ##
     git clone git://github.com/shinout/SortedList.git
 
     OR
 
     npm install sortedlist
 
-### Usage ###
+## Usage ##
 
     // sort number
     var list = SortedList.create();
@@ -37,49 +37,133 @@ sorted list in JavaScript
     // register an already filtered array
     var list = SortedList.create(0,1,2,3,4, { resume: true });
 
-### MORE ###
-- unique
+## API Documentation ##
+- SortedList.create(options, arr)
+- sortedList.insertOne(val)
+- sortedList.insert(val1, val2, ...)
+- sortedList.remove(pos)
+- sortedList.unique(createNew)
+- sortedList.bsearch(val)
+- sortedList.key(val)
+- sortedList.toArray()
 
-    sorted.unique();
 
-- get first key
+### SortedList.create(options, arr) ###
+create an instance of SortedList.
 
-    var index = sorted.key(value);
+**options** is option object as follows.
+<table>
+<tr><th>key</th>
+<td>type</td>
+<td>description</td>
+<td>example</td></tr>
+
+<tr><th>filter</th>
+<td>function</td>
+<td>
+register a filtration function which returns boolean indicating valid value, running before insertion.
+By default, function(v) { returns true }, that is, no filtration.
+</td>
+<td>function (v) { return !isNaN(Number(v) }</td>
+</tr>
+
+<tr><th>compare</th>
+<td>one of "string", "number"</td>
+<td>
+comparison function comparing two strings or two numbers asc.<br>
+By default, "number" comparison.
+</td>
+<td>"number"</td>
+</tr>
+
+<tr><th>compare</th>
+<td>function</td>
+<td>
+a custom comparison function which returns one of [1, 0, -1].<br>
+The same spec as Array#sort(fn).
+See [mozilla official site](https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/sort).
+</td>
+<td>"number"</td>
+</tr>
+
+<tr><th>resume</th>
+<td>boolean</td>
+<td>
+if true, sets the array given in the second arguments with no filtration
+</td>
+<td>true</td>
+</tr>
+</table>
+
+**arr** is a initial value. All elements are shallowly copied.
+
+Returns an instance of SortedList.
+
+### sortedList.insertOne(val) ###
+Inserts **val** to the list. 
+
+Returns inserted position if succeeded, false if failed.
 
 
-- sort ranges with no overlap
+### sortedList.insert(val1, val2, ...) ###
+Inserts **val1** **val2**, ... to the list.
 
-    var list = SortedList.create([
-      [152, 222],  // 4
-      [33, 53],    // 2
-      [48, 96],    // duplicated, so filtered.
-      [928, 1743], // 5
-      [66, 67],    // 3
-      [11, 12]     // 1
-    ],
-    {
-      // filter function: called before insertion.
-      filter: function(val, pos) {
-        return (this[pos]   == null || (this[pos]   != null && this[pos][1]  <  val[0])) 
-          && 
-               (this[pos+1] == null || (this[pos+1] != null && val[1] < this[pos+1][0]));
-      },
+Returns list of the result of executing insertOne(val).
 
-      // comparison function called before insertion.
-      compare: function(a, b) {
-        if (a == null) return -1;
-        if (b == null) return  1;
-        var c = a[0] - b[0];
-        return (c > 0) ? 1 : (c == 0)  ? 0 : -1;
-      }
+    console.log(SortedList.create().insert(3,1,2,4,5));
+    // [0,0,1,3,4]
+
+### sortedList.remove(pos) ###
+Removes a value in the position **pos**.
+
+Returns this.
+
+### sortedList.unique(createNew) ###
+Make the list unique.
+If **createNew** is true, returns a new array.
+
+Otherwise, duplicated elements are internally removed, and this method returns this.
+
+### sortedList.bsearch(val) ###
+Executes binary search with the given **val**.
+Returns the position before insertion.
+
+    var list = SortedList.create([1,2,4,6,10]);
+    console.log(list.bsearch(4)); // 2
+    console.log(list.bsearch(5)); // 2
+    console.log(list.bsearch(0)); // -1
+    console.log(list.bsearch(12)); // 4
+
+### sortedList.key(val) ###
+If the given **val** exists, returns the position.
+
+Otherwise, returns null.
+
+    var list = SortedList.create([1,2,4,6,10]);
+    console.log(list.key(4)); // 2
+    console.log(list.key(5)); // null
+    console.log(list.key(1)); // 0
+    console.log(list.key(10)); // 4
+
+### sortedList.toArray() ###
+Creates a new array with this list.
+
+## SortedList extends Array ###
+As SortedList extends Array, we can use every method in Array.
+
+    var list = SortedList.create([1,2,4,6,10]);
+
+    console.log(list[2]) // 4
+
+    list.forEach(function(total, v) {
+      // ...
     });
 
-    console.log(list.toArray());
-    /* [
-      [ 11, 12 ],
-      [ 33, 53 ],
-      [ 66, 67 ],
-      [ 152, 222 ],
-      [ 928, 1743 ]
-    ] */
+    var newArr = list.map(function(total, v) {
+      // ...
+    });
 
+Be careful of these differences.
+
+    Array.isArray(SortedList.create()) // false
+    (SortedList.create()) instanceof Array // true

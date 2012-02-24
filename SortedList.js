@@ -1,20 +1,5 @@
 /**
  * SortedList : constructor
- * 
- * @param arr : Array or null : an array to set
- *
- * @param options : object  or null
- *         (function) filter  : filter function called before inserting data.
- *                              This receives a value and returns true if the value is valid.
- *
- *         (function) compare : fucntion to compare two values, 
- *                              which is used for sorting order.
- *                              the same signiture as Array.prototype.sort(fn).
- *                              
- *         (string)   compare : if you'd like to set a common comparison function,
- *                              you can specify it by string:
- *                              "number" : compares number
- *                              "string" : compares string
  */
 function SortedList() {
   var arr     = null,
@@ -59,6 +44,38 @@ SortedList.create = function(val1, val2) {
 
 SortedList.prototype = new Array();
 SortedList.prototype.constructor = Array.prototype.constructor;
+
+/**
+ * sorted.insertOne(val)
+ * insert one value
+ * returns false if failed, inserted position if succeed
+ **/
+SortedList.prototype.insertOne = function(val) {
+  var pos = this.bsearch(val);
+  if (!this._filter(val, pos)) return false;
+  this.splice(pos+1, 0, val);
+  return pos+1;
+};
+
+/**
+ * sorted.insert(val1, val2, ...)
+ * insert multi values
+ * returns the list of the results of insertOne()
+ **/
+SortedList.prototype.insert = function() {
+  return Array.prototype.map.call(arguments, function(val) {
+    return this.insertOne(val);
+  }, this);
+};
+
+/**
+ * sorted.remove(pos)
+ * remove the value in the given position
+ **/
+SortedList.prototype.remove = function(pos) {
+  this.splice(pos, 1);
+  return this;
+}
 
 /**
  * sorted.bsearch(val)
@@ -127,36 +144,6 @@ SortedList.prototype.toArray = function() {
   return this.slice();
 };
 
-/**
- * sorted.insertOne(val)
- * insert one value
- * returns false if failed, inserted position if succeed
- **/
-SortedList.prototype.insertOne = function(val) {
-  var pos = this.bsearch(val);
-  if (!this._filter(val, pos)) return false;
-  this.splice(pos+1, 0, val);
-  return pos+1;
-};
-
-/**
- * sorted.insert(val1, val2, ...)
- * insert multi values
- * returns the list of the results of insertOne()
- **/
-SortedList.prototype.insert = function() {
-  return Array.prototype.map.call(arguments, function(val) {
-    return this.insertOne(val);
-  }, this);
-};
-
-/**
- * sorted.remove(pos)
- * remove the value in the given position
- **/
-SortedList.prototype.remove = function(pos) {
-  this.splice(pos, 1);
-}
 
 /**
  * default filtration function
