@@ -27,6 +27,8 @@ function SortedList() {
     this._compare = SortedList.compares[options.compare];
   }
 
+  this._unique = !!options.unique;
+
   if (options.resume && arr) {
     arr.sort(this._compare).forEach(function(v, i) { this.push(v) }, this);
   }
@@ -52,6 +54,7 @@ SortedList.prototype.constructor = Array.prototype.constructor;
  **/
 SortedList.prototype.insertOne = function(val) {
   var pos = this.bsearch(val);
+  if (this._unique && this.key(val, pos) != null) return false;
   if (!this._filter(val, pos)) return false;
   this.splice(pos+1, 0, val);
   return pos+1;
@@ -101,8 +104,9 @@ SortedList.prototype.bsearch = function(val) {
  * sorted.key(val)
  * @returns first index if exists, null if not
  **/
-SortedList.prototype.key = function(val) {
-  var pos = this.bsearch(val);
+SortedList.prototype.key = function(val, bsResult) {
+  if (bsResult== null) bsResult = this.bsearch(val);
+  var pos = bsResult;
   if (pos == -1 || this._compare(this[pos], val) < 0)
     return (pos+1 < this.length && this._compare(this[pos+1], val) == 0) ? pos+1 : null;
   while (pos >= 1 && this._compare(this[pos-1], val) == 0) pos--;
@@ -113,9 +117,9 @@ SortedList.prototype.key = function(val) {
  * sorted.key(val)
  * @returns indexes if exists, null if not
  **/
-SortedList.prototype.keys = function(val) {
+SortedList.prototype.keys = function(val, bsResult) {
   var ret = [];
-  var bsResult = this.bsearch(val);
+  if (bsResult == null) bsResult = this.bsearch(val);
   var pos = bsResult;
   while (pos >= 0 && this._compare(this[pos], val) == 0) {
     ret.push(pos);

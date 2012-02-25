@@ -59,6 +59,12 @@ create an instance of SortedList.
 <td>description</td>
 <td>example</td></tr>
 
+<tr><th>unique</th>
+<td>boolean</td>
+<td>filter unique values in insertion.</td>
+<td>true</td>
+</tr>
+
 <tr><th>filter</th>
 <td>function</td>
 <td>
