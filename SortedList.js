@@ -82,25 +82,19 @@ SortedList.prototype.remove = function(pos) {
  * @returns position of the value
  **/
 SortedList.prototype.bsearch = function(val) {
+  if (!this.length) return -1;
   var mpos,
       spos = 0,
       epos = this.length;
   while (epos - spos > 1) {
     mpos = Math.floor((spos + epos)/2);
     mval = this[mpos];
-    switch (this._compare(val, mval)) {
-    case 1  :
-    default :
-      spos = mpos;
-      break;
-    case -1 :
-      epos = mpos;
-      break;
-    case 0  :
-      return mpos;
-    }
+    var comp = this._compare(val, mval);
+    if (comp == 0) return mpos;
+    if (comp > 0)  spos = mpos;
+    else           epos = mpos;
   }
-  return (this[0] == null || spos == 0 && this[0] != null && this._compare(this[0], val) == 1) ? -1 : spos;
+  return (spos == 0 && this._compare(this[0], val) > 0) ? -1 : spos;
 };
 
 /**
@@ -109,11 +103,32 @@ SortedList.prototype.bsearch = function(val) {
  **/
 SortedList.prototype.key = function(val) {
   var pos = this.bsearch(val);
-  if (pos == -1 || this[pos] != val) return null;
-  while (pos >= 1 && this[pos-1] == val) {
+  if (pos == -1 || this._compare(this[pos], val) < 0)
+    return (pos+1 < this.length && this._compare(this[pos+1], val) == 0) ? pos+1 : null;
+  while (pos >= 1 && this._compare(this[pos-1], val) == 0) pos--;
+  return pos;
+};
+
+/**
+ * sorted.key(val)
+ * @returns indexes if exists, null if not
+ **/
+SortedList.prototype.keys = function(val) {
+  var ret = [];
+  var bsResult = this.bsearch(val);
+  var pos = bsResult;
+  while (pos >= 0 && this._compare(this[pos], val) == 0) {
+    ret.push(pos);
     pos--;
   }
-  return pos;
+
+  var len = this.length;
+  pos = bsResult+1;
+  while (pos < len && this._compare(this[pos], val) == 0) {
+    ret.push(pos);
+    pos++;
+  }
+  return ret.length ? ret : null;
 };
 
 /**
@@ -123,11 +138,11 @@ SortedList.prototype.key = function(val) {
  **/
 SortedList.prototype.unique = function(createNew) {
   if (createNew) return this.filter(function(v, k) {
-    return k == 0 || this[k-1] != v;
+    return k == 0 || this._compare(this[k-1], v) != 0;
   }, this);
   var total = 0;
   this.map(function(v, k) {
-    if (k == 0 || this[k-1] != v) return null;
+    if (k == 0 || this._compare(this[k-1], v) != 0) return null;
     return k - (total++);
   }, this)
   .forEach(function(k) {
@@ -171,5 +186,5 @@ SortedList.compares = {
  * sorted.compare(a, b)
  * default comparison function
  **/
-SortedList.prototype._compare = SortedList.compares["number"];
+SortedList.prototype._compare = SortedList.compares["string"];
 if (typeof exports == 'object' && exports === this) module.exports = SortedList;

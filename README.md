@@ -45,6 +45,7 @@ sorted list in JavaScript (browsers (ES5 compatible), Node.js)
 - sortedList.unique(createNew)
 - sortedList.bsearch(val)
 - sortedList.key(val)
+- sortedList.keys(val)
 - sortedList.toArray()
 
 
@@ -135,15 +136,27 @@ Returns the position before insertion.
     console.log(list.bsearch(12)); // 4
 
 ### sortedList.key(val) ###
-If the given **val** exists, returns the position.
+If the given **val** exists, returns the first position.
 
 Otherwise, returns null.
 
-    var list = SortedList.create([1,2,4,6,10]);
+    var list = SortedList.create([1,2,4,4,4,6,10]);
+    console.log(list.key(10)); // 6
     console.log(list.key(4)); // 2
     console.log(list.key(5)); // null
     console.log(list.key(1)); // 0
-    console.log(list.key(10)); // 4
+
+### sortedList.keys(val) ###
+If the given **val** exists, returns an array of all the positions with **val**.
+
+Otherwise, returns null.
+
+    var list = SortedList.create([1,2,4,4,4,6,10]);
+    console.log(list.keys(10)); // [4]
+    console.log(list.keys(4)); // [2, 3, 4]
+    console.log(list.keys(5)); // null
+    console.log(list.keys(1)); // [0]
+
 
 ### sortedList.toArray() ###
 Creates a new array with this list.
