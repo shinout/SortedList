@@ -30,7 +30,7 @@ function SortedList() {
   this._unique = !!options.unique;
 
   if (options.resume && arr) {
-    arr.sort(this._compare).forEach(function(v, i) { this.push(v) }, this);
+    arr.forEach(function(v, i) { this.push(v) }, this);
   }
   else if (arr) this.insert.apply(this, arr);
 };
