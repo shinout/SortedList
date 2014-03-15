@@ -1,4 +1,6 @@
-var SortedList = require("../SortedList");
+require('coffee-script/register');
+require("termcolor").define
+var SortedList = require("../SortedList.coffee");
 
 function test() {
   // sample : ranges with no overlap
@@ -26,6 +28,7 @@ function test() {
 
   console.assert(Array.isArray(list) === false);
   console.assert(list instanceof Array);
+  console.green("sample test ok")
 }
 
 

@@ -1,4 +1,6 @@
-var SortedList = require("../SortedList");
+require('coffee-script/register');
+require("termcolor").define
+var SortedList = require("../SortedList.coffee");
 
 var compare = function(a, b) {
   return a.val > b.val ? 1: -1;

@@ -1,4 +1,5 @@
-var list = require('sortedlist').create({compare: "string"});
+require('coffee-script/register');
+var list = require('../SortedList.coffee').create({compare: "string"});
 
 require('linestream').tsv(__dirname + '/genes', function(data, line) {
   var gene = data[0];

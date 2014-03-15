@@ -1,4 +1,6 @@
-var SortedList = require('sortedlist');
+require('coffee-script/register');
+require("termcolor").define
+var SortedList = require('../SortedList.coffee');
 
 var compare = function(a, b) {
   return (a[0] > b[0]) ? 1 : (a[0] == b[0]) ? 0 : -1;
@@ -14,3 +16,4 @@ for (var i=0; i<N;i++) {
   list.insert(["osaka", 4]);
 }
 console.assert(list.length == 4)
+console.green("unique test ok")
