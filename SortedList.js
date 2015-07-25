@@ -102,6 +102,7 @@
   SortedList.prototype.bsearch = function(val) {
     if (!this.length) return -1;
     var mpos,
+        mval,
         spos = 0,
         epos = this.length;
     while (epos - spos > 1) {
