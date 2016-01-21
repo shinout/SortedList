@@ -4,4 +4,5 @@
 , "keywords": ["sort", "list", "bsearch", "algorithm"]
 , "author": "SHIN Suzuki <shinout310@gmail.com>"
 , "main": "./SortedList.js"
+, "homepage": "https://github.com/shinout/SortedList"
 }
